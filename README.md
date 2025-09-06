@@ -7,7 +7,6 @@ WebVitals360 is a Flask app that audits a website for security headers, performa
 - __User accounts__: sign up and sign in (username or email) using `users` table in MySQL.
 - __Scan endpoint__: POST a URL and receive scores and categorized issues.
 - __PDF reports__: Issues and Remedies PDFs generated per scan.
-- __Email delivery__: send PDFs via SMTP or providers (SendGrid/Mailgun/Brevo). You can disable email and just download in the UI.
 - __Modern UI__: `templates/index.html` and `static/` assets.
  
 ## Project structure
