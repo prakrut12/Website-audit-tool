@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Audit Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Website Security & Performance Audit</h1>
+      <p class="subtitle">
+        Comprehensive analysis of your website's security, performance, SEO, and
+        accessibility
+      </p>
+
+      <div class="card" id="audit-card">
+        <h2>🌐 Start Website Audit</h2>
+        <p>
+          Enter your website URL to begin a comprehensive security and
+          performance analysis
+        </p>
+        <div class="input-group">
+          <input
+            type="text"
+            id="website-url"
+            placeholder="https://example.com"
+          />
+          <button id="audit-btn" onclick="startAudit()">Start Audit</button>
+        </div>
+
+        <!-- Loading section -->
+        <div id="loading-section" class="hidden">
+          <button class="scanning-btn" disabled>Scanning...</button>
+          <div class="progress-bar">
+            <div id="progress" class="progress"></div>
+          </div>
+          <p id="progress-text">0% complete</p>
+          <p class="scanning-text">
+            🔍 Analyzing security<br />Scanning in progress...
+          </p>
+        </div>
+      </div>
+
+      <!-- Results section -->
+      <div id="results-section" class="hidden">
+        <div class="overall-score">
+          <h2>Overall Score</h2>
+          <p class="score-value">
+            <span id="overall-score"></span> <small>out of 100</small>
+          </p>
+        </div>
+
+        <!-- New PDF Generation Button -->
+        <button id="generate-pdf-btn" class="audit-btn hidden">Generate PDF Report</button>
+
+        <div class="score-cards">
+          <div class="score-card">
+            <h3>Security</h3>
+            <p class="score" id="security-score"></p>
+            <p>Issues found: <span id="security-issues"></span></p>
+            <p class="desc">
+              🔒 Vulnerability assessment and security headers analysis
+            </p>
+          </div>
+          <div class="score-card">
+            <h3>Performance</h3>
+            <p class="score" id="performance-score"></p>
+            <p>Issues found: <span id="performance-issues"></span></p>
+            <p id="load-time"></p>
+            <p class="desc">⚡ Core Web Vitals and speed optimization</p>
+          </div>
+          <div class="score-card">
+            <h3>SEO</h3>
+            <p class="score" id="seo-score"></p>
+            <p>Issues found: <span id="seo-issues"></span></p>
+            <p class="desc">
+              🔎 Search engine optimization and meta data analysis
+            </p>
+          </div>
+          <div class="score-card">
+            <h3>Accessibility</h3>
+            <p class="score" id="accessibility-score"></p>
+            <p>Issues found: <span id="accessibility-issues"></span></p>
+            <p class="desc">👁️ WCAG compliance and usability assessment</p>
+          </div>
+        </div>
+
+        <!-- Tab navigation -->
+        <div class="tabs">
+          <button class="tab-button active" onclick="showTab('security')">
+            Security
+          </button>
+          <button class="tab-button" onclick="showTab('performance')">
+            Performance
+          </button>
+          <button class="tab-button" onclick="showTab('seo')">SEO</button>
+          <button class="tab-button" onclick="showTab('accessibility')">
+            Accessibility
+          </button>
+        </div>
+
+        <!-- Tab contents -->
+        <div class="tab-content" id="tab-security">
+          <h2>🔒 Security Analysis</h2>
+
+          <div class="issue-card low">
+            <p class="issue-title">
+              ⚠️ Valid Certificate <span class="severity low">low</span>
+            </p>
+            <p class="issue-desc">
+              SSL certificate is valid and properly configured
+            </p>
+          </div>
+
+          <div class="issue-card high">
+            <p class="issue-title">
+              ❌ XSS Vulnerability <span class="severity high">high</span>
+            </p>
+            <p class="issue-desc">
+              Potential cross-site scripting vulnerabilities detected
+            </p>
+          </div>
+
+          <div class="issue-card medium">
+            <p class="issue-title">
+              ⚠️ Media Leakage <span class="severity medium">medium</span>
+            </p>
+            <p class="issue-desc">
+              Some media files exposed without proper protection
+            </p>
+          </div>
+
+          <div class="issue-card medium">
+            <p class="issue-title">
+              ⚠️ jQuery Detection <span class="severity medium">medium</span>
+            </p>
+            <p class="issue-desc">
+              Outdated jQuery version detected - security risk
+            </p>
+          </div>
+
+          <div class="issue-card low">
+            <p class="issue-title">
+              ⚠️ Bootstrap Detection <span class="severity low">low</span>
+            </p>
+            <p class="issue-desc">
+              Bootstrap framework detected, ensure latest version
+            </p>
+          </div>
+
+          <div class="issue-card high">
+            <p class="issue-title">
+              ❌ HTTP/HTTPS Protocol <span class="severity high">high</span>
+            </p>
+            <p class="issue-desc">
+              Mixed content detected - some resources not using HTTPS
+            </p>
+          </div>
+        </div>
+
+        <!-- Performance Tab -->
+        <div class="tab-content hidden" id="tab-performance">
+          <h2>⚡ Performance Metrics</h2>
+
+          <div class="metric-card">
+            <p class="metric-title">
+              Loading Speed <span class="sub-label">Core Web Vital</span>
+            </p>
+            <div class="metric-status">
+              <span class="value">3.2s</span>
+              <span class="status needs-improvement">Needs Improvement</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <p class="metric-title">
+              Caching <span class="sub-label">Core Web Vital</span>
+            </p>
+            <div class="metric-status">
+              <span class="value">Partial</span>
+              <span class="status needs-improvement">Needs Improvement</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <p class="metric-title">
+              Large Image <span class="sub-label">Core Web Vital</span>
+            </p>
+            <div class="metric-status">
+              <span class="value">2.1MB</span>
+              <span class="status poor">Poor</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <p class="metric-title">
+              Response Image <span class="sub-label">Core Web Vital</span>
+            </p>
+            <div class="metric-status">
+              <span class="value">Not Optimized</span>
+              <span class="status poor">Poor</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <p class="metric-title">
+              Asset Load <span class="sub-label">Core Web Vital</span>
+            </p>
+            <div class="metric-status">
+              <span class="value">87KB unused JS</span>
+              <span class="status needs-improvement">Needs Improvement</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <p class="metric-title">
+              Unused CSS Detection <span class="sub-label">Core Web Vital</span>
+            </p>
+            <div class="metric-status">
+              <span class="value">45KB unused</span>
+              <span class="status needs-improvement">Needs Improvement</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEO Tab -->
+        <div class="tab-content hidden" id="tab-seo">
+          <h2>🔍 SEO Analysis</h2>
+
+          <div class="seo-card">
+            <p class="seo-title">
+              Page Name <span class="impact high">high impact</span>
+            </p>
+            <p class="seo-desc">
+              Some pages have generic or missing title tags
+            </p>
+          </div>
+
+          <div class="seo-card">
+            <p class="seo-title">
+              Meta Description <span class="impact high">high impact</span>
+            </p>
+            <p class="seo-desc">Missing or duplicate meta descriptions found</p>
+          </div>
+
+          <div class="seo-card">
+            <p class="seo-title">
+              Mobile Viewport <span class="impact high">high impact</span>
+            </p>
+            <p class="seo-desc">
+              Mobile viewport meta tag not properly configured
+            </p>
+          </div>
+
+          <div class="seo-card">
+            <p class="seo-title">
+              Robots.txt <span class="impact medium">medium impact</span>
+            </p>
+            <p class="seo-desc">Robots.txt file missing or misconfigured</p>
+          </div>
+
+          <div class="seo-card">
+            <p class="seo-title">
+              Sitemap.xml <span class="impact medium">medium impact</span>
+            </p>
+            <p class="seo-desc">
+              XML sitemap not found or not submitted to search engines
+            </p>
+          </div>
+        </div>
+
+        <!-- Accessibility Tab -->
+        <div class="tab-content hidden" id="tab-accessibility">
+          <h2>👁️ Accessibility Issues</h2>
+
+          <div class="acc-card">
+            <p class="acc-title">Alt Text <span class="wcag">WCAG A</span></p>
+            <p class="acc-desc">
+              Multiple images missing alternative text descriptions
+            </p>
+          </div>
+
+          <div class="acc-card">
+            <p class="acc-title">
+              Low ARIA Usage <span class="wcag">WCAG AA</span>
+            </p>
+            <p class="acc-desc">
+              Insufficient ARIA labels and landmarks for screen readers
+            </p>
+          </div>
+
+          <div class="acc-card">
+            <p class="acc-title">
+              Inline Style <span class="wcag">WCAG A</span>
+            </p>
+            <p class="acc-desc">
+              Inline styles detected that may affect accessibility
+            </p>
+          </div>
+
+          <div class="acc-card">
+            <p class="acc-title">
+              Color Contrast <span class="wcag">WCAG AA</span>
+            </p>
+            <p class="acc-desc">
+              Several elements fail WCAG color contrast requirements
+            </p>
+          </div>
+
+          <div class="acc-card">
+            <p class="acc-title">
+              Compliance <span class="wcag">WCAG AAA</span>
+            </p>
+            <p class="acc-desc">
+              Overall accessibility compliance needs improvement
+            </p>
+          </div>
+        </div>
+        <!-- ChatGPT Search Section -->
+        <div id="chatgpt-search-section" class="chatgpt-search-section hidden">
+          <h3>🤖 Generate Corrected HTML</h3>
+          <div class="chatgpt-search-input" style="gap:8px; display:flex; flex-wrap:wrap; align-items:center;">
+            <input
+              type="text"
+              id="chatgpt-query"
+              placeholder="(Optional) Notes for correction"
+              onkeypress="handleChatGPTKeyPress(event)"
+              style="flex:1; min-width:220px;"
+            />
+            <button class="chatgpt-search-btn" onclick="generateFromUrl()">URL's corrected code</button>
+            <button class="chatgpt-search-btn" onclick="generateFromSnippet()">Enter your code snippet</button>
+          </div>
+          <!-- Snippet input area (always visible for quick paste) -->
+          <div id="snippet-area" style="margin-top:8px;">
+            <label for="user-snippet" style="font-weight:600;">Your HTML snippet</label>
+            <textarea id="user-snippet" placeholder="Paste your HTML snippet here" style="width:100%;height:180px"></textarea>
+          </div>
+          <div style="margin-top:10px">
+            <textarea id="corrected-output" placeholder="Corrected HTML will appear here" style="width:100%;height:220px"></textarea>
+          </div>
+        </div>
+        <!-- Leaderboard Section Trigger -->
+        <div class="leaderboard-trigger">
+          <button onclick="loadLeaderboard()" class="chatgpt-search-btn" id="leaderboard-btn">Show Top 10 Secured Websites</button>
+        </div>
+        <!-- Leaderboard Section -->
+        <div id="leaderboard-section" class="hidden" aria-live="polite">
+          <h3>🏆 Leaderboard</h3>
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>URL</th>
+                <th>Security</th>
+                <th>Overall</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-list"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

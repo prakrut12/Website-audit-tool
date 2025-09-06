@@ -1,0 +1,268 @@
+:root {
+  /* Solid Colors */
+  --black: #000000;
+  --white: #ffffff;
+  --gray: #efefef;
+  --gray-2: #757575;
+
+  /* Gradient Colors (background only) */
+  --primary-gradient: linear-gradient(135deg, #ffc7c7, #70bee4);
+
+  /* Solid fallback colors */
+  --primary-color: #70bee4; /* for sign-in */
+  --secondary-color: #ffc7c7; /* for sign-up */
+
+  /* Social Button Colors */
+  --google-color: #db4437;
+  --github-color: #333333;
+  --linkedin-color: #0077b5;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+
+.col {
+  width: 50%;
+}
+
+.align-items-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 36rem;
+}
+
+.form {
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 1.5rem;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transform: scale(0);
+  transition: 0.8s ease-in-out;
+  position: relative;
+  z-index: 5; /* keep forms below overlay text */
+}
+
+
+.input-group {
+  position: relative;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.input-group i {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+  color: var(--gray-2);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 1rem 3rem;
+  font-size: 1rem;
+  background-color: var(--gray);
+  border-radius: 0.5rem;
+  border: 0.125rem solid var(--white);
+  outline: none;
+}
+
+.input-group input:focus {
+  border: 0.125rem solid var(--primary-color);
+}
+
+/* Form buttons */
+.form.sign-in button {
+  background: var(--primary-color);
+}
+.form.sign-in button:hover {
+  background: #4ea9d3;
+}
+
+.form.sign-up button {
+  background: var(--secondary-color);
+}
+.form.sign-up button:hover {
+  background: #e6a9a9;
+}
+
+.form button {
+  cursor: pointer;
+  width: 100%;
+  padding: 0.8rem 0;
+  border-radius: 0.5rem;
+  border: none;
+  color: var(--white);
+  font-size: 1.2rem;
+  font-weight: 600;
+  outline: none;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.form p {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.row.content-row {
+  position: relative;
+  z-index: 50; /* above background and forms */
+}
+
+/* Ensure columns have enough height for absolute-centering of overlay text */
+.row.content-row .col {
+  min-height: 360px;
+  overflow: visible;
+}
+
+/* Text containers are visible and centered */
+.col { position: relative; }
+
+.text.sign-in,
+.text.sign-up {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 1000; /* ensure above everything */
+  width: 80%;
+  color: var(--white) !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  opacity: 1 !important; /* visible by default */
+  transition: opacity 0.3s ease;
+  pointer-events: none; /* allow clicks to pass through to forms */
+  /* subtle readable background */
+  background: rgba(0, 0, 0, 0.35) !important; /* stronger for visibility */
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: block !important;
+  visibility: visible !important;
+  outline: 2px dashed #00ff99; /* DEBUG: remove after confirming */
+}
+
+/* Temporary: always show both texts to ensure visibility */
+/* Remove these comments and add back fading once confirmed visible */
+
+.text.sign-in h2,
+.text.sign-up h2 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--white);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+  letter-spacing: 2px;
+}
+
+.img.sign-in,
+.img.sign-up {
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 6;
+}
+/* ✅ Social Login Buttons */
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.social-login button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--white);
+  transition: transform 0.2s ease-in-out;
+}
+
+.social-login button:hover {
+  transform: scale(1.05);
+}
+
+.google-btn {
+  background: var(--google-color);
+}
+.github-btn {
+  background: var(--github-color);
+}
+.linkedin-btn {
+  background: var(--linkedin-color);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.container.sign-in .form.sign-in,
+.container.sign-up .form.sign-up {
+  transform: scale(1);
+}
+
+/* BACKGROUND */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300vw;
+  transform: translate(35%, 0);
+  background: var(--primary-gradient);
+  transition: 0.8s ease-in-out;
+  z-index: 1;
+  border-bottom-right-radius: max(50vw, 50vh);
+  border-top-left-radius: max(50vw, 50vh);
+}
+
+.container.sign-in::before {
+  transform: translate(0, 0);
+  right: 50%;
+}
+
+.container.sign-up::before {
+  transform: translate(100%, 0);
+  right: 50%;
+}

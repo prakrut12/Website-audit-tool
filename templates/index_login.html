@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebVitals360</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style_login.css') }}?v=2"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" sizes="any">
+  </head>
+
+  <body>
+    <div id="container" class="container">
+      <!-- FORM SECTION -->
+      <div class="row">
+        <!-- SIGN UP -->
+        <div class="col align-items-center flex-col sign-up">
+          <div class="form-wrapper align-items-center">
+            <form
+              class="form sign-up"
+              method="POST"
+              action="{{ url_for('signup') }}"
+            >
+              <h2>Create Account</h2>
+
+              <div class="input-group">
+                <i class="bx bxs-user"></i>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  required
+                />
+              </div>
+
+              <div class="input-group">
+                <i class="bx bx-mail-send"></i>
+                <input type="email" name="email" placeholder="Email" required />
+              </div>
+
+              <div class="input-group">
+                <i class="bx bxs-lock-alt"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+
+              <div class="input-group">
+                <i class="bx bxs-lock-alt"></i>
+                <input
+                  type="password"
+                  name="confirm"
+                  placeholder="Confirm Password"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn">Sign up</button>
+
+              <!-- <p>Or continue with</p>
+              <div class="social-login">
+                <button type="button" class="google-btn">
+                  <i class="bx bxl-google"></i> Google
+                </button>
+                <button type="button" class="github-btn">
+                  <i class="bx bxl-github"></i> GitHub
+                </button>
+                <button type="button" class="linkedin-btn">
+                  <i class="bx bxl-linkedin"></i> LinkedIn
+                </button>
+              </div> -->
+
+              <p>
+                <span>Already have an account?</span>
+                <b onclick="toggle()" class="pointer">Sign in here</b>
+              </p>
+            </form>
+          </div>
+        </div>
+        <!-- END SIGN UP -->
+
+        <!-- SIGN IN -->
+        <div class="col align-items-center flex-col sign-in">
+          <div class="form-wrapper align-items-center">
+            <form
+              class="form sign-in"
+              method="POST"
+              action="{{ url_for('signin') }}"
+            >
+              <h2>Welcome Back</h2>
+
+              <div class="input-group">
+                <i class="bx bxs-user"></i>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  required
+                />
+              </div>
+
+              <div class="input-group">
+                <i class="bx bxs-lock-alt"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+
+              <button type="submit" class="btn">Sign in</button>
+
+              <!-- <p>Or continue with</p> -->
+              <!-- <div class="social-login">
+        <button type="button" class="google-btn">
+          <i class="bx bxl-google"></i> Google
+        </button>
+        <button type="button" class="github-btn">
+          <i class="bx bxl-github"></i> GitHub
+        </button>
+        <button type="button" class="linkedin-btn">
+          <i class="bx bxl-linkedin"></i> LinkedIn
+        </button>
+      </div> -->
+
+              <p>
+                <b class="pointer">Forgot password?</b>
+              </p>
+              <p>
+                <span>Don't have an account?</span>
+                <b onclick="toggle()" class="pointer">Sign up here</b>
+              </p>
+            </form>
+          </div>
+        </div>
+        <!-- END SIGN IN -->
+      </div>
+
+      <!-- CONTENT SECTION -->
+      <div class="row content-row">
+        <!-- SIGN IN CONTENT -->
+        <div class="col align-items-center flex-col">
+          <div class="text sign-in">
+            <h2>Back to the Lab</h2>
+            <p>Sign in and turn late-night ideas into working prototypes 🌙</p>
+          </div>
+          <div class="img sign-in"></div>
+        </div>
+        <!-- END SIGN IN CONTENT -->
+
+        <!-- SIGN UP CONTENT -->
+        <div class="col align-items-center flex-col">
+          <div class="img sign-up"></div>
+          <div class="text sign-up">
+            <h2>Join the Crew</h2>
+            <p>Sign up to prototype, collaborate, and ship in hours, not weeks 🛠️</p>
+          </div>
+        </div>
+        <!-- END SIGN UP CONTENT -->
+      </div>
+      <!-- END CONTENT SECTION -->
+    </div>
+
+    <!-- JS for toggle -->
+    <script src="{{ url_for('static', filename='1.js') }}"></script>
+  </body>
+</html>
